@@ -12,7 +12,7 @@ import 'dotenv/config';
 const app = express();
 app.use(express.json());
 
-const { WEBHOOK_VERIFY_TOKEN, API_TOKEN, BUSINESS_PHONE, API_VERSION, PORT } = process.env;
+const { WEBHOOK_VERIFY_TOKEN, API_TOKEN, BUSINESS_PHONE, API_VERSION, WHATSAPP_API_URL, PORT } = process.env;
 
 app.post("/webhook", async (req, res) => {
   // log incoming messages
@@ -28,7 +28,7 @@ app.post("/webhook", async (req, res) => {
     // send a reply message as per the docs here https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages
     await axios({
       method: "POST",
-      url: `https://graph.facebook.com/${API_VERSION}/${BUSINESS_PHONE}/messages`,
+      url: `${WHATSAPP_API_URL}/${API_VERSION}/${BUSINESS_PHONE}/messages`,
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
@@ -45,7 +45,7 @@ app.post("/webhook", async (req, res) => {
     // mark incoming message as read
     await axios({
       method: "POST",
-      url: `https://graph.facebook.com/${API_VERSION}/${BUSINESS_PHONE}/messages`,
+      url: `${WHATSAPP_API_URL}/${API_VERSION}/${BUSINESS_PHONE}/messages`,
       headers: {
         Authorization: `Bearer ${API_TOKEN}`,
       },
