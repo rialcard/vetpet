@@ -25,10 +25,22 @@ async function addRowTosheet(auth, spreadsheetId, values) {
 
 const appendToSheet = async (data) => {
     try {
-        const auth = new google.auth.GoogleAuth({
-            keyFile: path.join(process.cwd(), 'src/credentials', 'credentials.json'),
-            scopes: ['https://www.googleapis.com/auth/spreadsheets']
-        });
+        let auth;
+        
+        // Usar credenciales desde variable de entorno si estamos en producción
+        if (process.env.GOOGLE_CREDENTIALS) {
+            const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+            auth = new google.auth.GoogleAuth({
+                credentials,
+                scopes: ['https://www.googleapis.com/auth/spreadsheets']
+            });
+        } else {
+            // Fallback a archivo local para desarrollo
+            auth = new google.auth.GoogleAuth({
+                keyFile: path.join(process.cwd(), 'src/credentials', 'credentials.json'),
+                scopes: ['https://www.googleapis.com/auth/spreadsheets']
+            });
+        }
 
         const authClient = await auth.getClient();
         const spreadsheetId = '1ZBU7NZtPPxW3bYBj0xwPcPWKsQL2buXPCRq9axJrY60'
