@@ -55,7 +55,7 @@ const appendToSheet = async (data) => {
         const customerName = data.name || 'No especificado';
         const petName = data.petName || 'No especificado';
         const serviceType = data.service || 'No especificado';
-        const consultationStatus = data.status || 'Pendiente';
+        const consultationStatus = serviceType; // Usar el tipo de servicio como estado
 
         let auth;
         
