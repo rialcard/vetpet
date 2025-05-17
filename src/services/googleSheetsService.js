@@ -54,7 +54,7 @@ const appendToSheet = async (data) => {
         const phoneNumber = data.phone || 'No especificado';
         const customerName = data.name || 'No especificado';
         const petName = data.petName || 'No especificado';
-        const petType = data.petType || data.petName || 'No especificado';  // Usar el tipo de mascota
+        const petType = data.petType || 'No especificado';  
         const serviceType = data.service || 'No especificado';
         const consultationStatus = serviceType; // Usar el tipo de servicio como estado
 
