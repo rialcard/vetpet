@@ -25,6 +25,14 @@ async function addRowTosheet(auth, spreadsheetId, values) {
 
 const appendToSheet = async (data) => {
     try {
+        // Log inicial para ver qué datos llegan
+        console.log('Datos recibidos en appendToSheet:', {
+            dataRecibida: data,
+            tipoData: typeof data,
+            esNull: data === null,
+            esUndefined: data === undefined
+        });
+
         // Crear fecha con zona horaria de Bogotá
         const date = new Date();
         const bogotaDate = new Intl.DateTimeFormat('es-CO', {
@@ -86,6 +94,14 @@ const appendToSheet = async (data) => {
         console.error('Error al agregar datos:', error);
         throw error; // Propagar el error para mejor manejo
     }
+    // Log antes de procesar
+    console.log('Datos procesados:', {
+        phoneNumber,
+        customerName,
+        petName,
+        serviceType,
+        consultationStatus
+    });
 }
 
 export default appendToSheet;

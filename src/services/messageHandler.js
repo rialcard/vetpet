@@ -114,16 +114,15 @@ class MessageHandler {
     const appointment = this.appointmentState[to];
     delete this.appointmentState[to];
 
-    const userData = [
-      to,
-      appointment.name,
-      appointment.petName,
-      appointment.petType,
-      appointment.reason,
-      new Date().toISOString()
-    ]
+    const appointmentData = {
+        phone: to,
+        name: appointment.name,
+        petName: appointment.petName,
+        service: appointment.reason,    // Cambiado de petType
+        status: 'Pendiente',           // Agregado estado por defecto
+    };
 
-    appendToSheet(userData);
+    appendToSheet(appointmentData);
 
     return `Gracias por agendar tu cita. 
     Resumen de tu cita:
