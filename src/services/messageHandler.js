@@ -118,6 +118,7 @@ class MessageHandler {
         phone: to,
         name: appointment.name,
         petName: appointment.petName,
+        petType: appointment.petType,
         service: appointment.reason,    // Cambiado de petType
         status: 'Pendiente',           // Agregado estado por defecto
     };
