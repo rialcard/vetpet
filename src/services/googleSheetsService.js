@@ -25,6 +25,23 @@ async function addRowTosheet(auth, spreadsheetId, values) {
 
 const appendToSheet = async (data) => {
     try {
+        // Crear fecha con zona horaria de Bogotá
+        const date = new Date();
+        const bogotaDate = new Intl.DateTimeFormat('es-CO', {
+            timeZone: 'America/Bogota',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }).format(date);
+
+        // Formatear la fecha al formato deseado (DD/MM/YYYY HH:mm:ss)
+        const formattedDate = bogotaDate
+            .replace(/(\d+)\/(\d+)\/(\d+),\s+(\d+):(\d+):(\d+)/, '$1/$2/$3 $4:$5:$6');
+
         let auth;
         
         // Usar credenciales desde variable de entorno si estamos en producción
@@ -45,7 +62,17 @@ const appendToSheet = async (data) => {
         const authClient = await auth.getClient();
         const spreadsheetId = '1ZBU7NZtPPxW3bYBj0xwPcPWKsQL2buXPCRq9axJrY60'
 
-        await addRowTosheet(authClient, spreadsheetId, data);
+        // Modificar data para incluir la fecha formateada
+        const valuesWithDate = [
+            data.name,
+            data.phone,
+            data.petName,
+            data.service,
+            formattedDate,
+            data.status
+        ];
+
+        await addRowTosheet(authClient, spreadsheetId, valuesWithDate);
         return 'Datos correctamente agregados'
     } catch (error) {
         console.error(error);
