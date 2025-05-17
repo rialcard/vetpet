@@ -54,7 +54,7 @@ const appendToSheet = async (data) => {
         const phoneNumber = data.phone || 'No especificado';
         const customerName = data.name || 'No especificado';
         const petName = data.petName || 'No especificado';
-        const petType = data.petType || 'No especificado';    // Nuevo campo para tipo de mascota
+        const petType = data.petType || data.petName || 'No especificado';  // Usar el tipo de mascota
         const serviceType = data.service || 'No especificado';
         const consultationStatus = serviceType; // Usar el tipo de servicio como estado
 
@@ -79,11 +79,11 @@ const appendToSheet = async (data) => {
         // Asegurarnos de que todos los datos estén presentes y en el orden correcto
         const valuesWithDate = [
             phoneNumber,          // Whatsapp
-            customerName,         // Nombre
-            petName,             // Mascota
+            customerName,         // Nombre del cliente
+            petName,             // Nombre de la mascota
             petType,             // Tipo de mascota
-            serviceType,         // Consulta
-            formattedDate        // Fecha
+            serviceType,         // Motivo de la consulta
+            formattedDate        // Fecha y hora
         ];
 
         // Verificar que tenemos todos los datos antes de enviar
