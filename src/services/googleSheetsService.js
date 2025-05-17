@@ -42,6 +42,13 @@ const appendToSheet = async (data) => {
         const formattedDate = bogotaDate
             .replace(/(\d+)\/(\d+)\/(\d+),\s+(\d+):(\d+):(\d+)/, '$1/$2/$3 $4:$5:$6');
 
+        // Verificar y asignar valores por defecto si es necesario
+        const phoneNumber = data.phone || 'No especificado';
+        const customerName = data.name || 'No especificado';
+        const petName = data.petName || 'No especificado';
+        const serviceType = data.service || 'No especificado';
+        const consultationStatus = data.status || 'Pendiente';
+
         let auth;
         
         if (process.env.GOOGLE_CREDENTIALS) {
@@ -60,20 +67,24 @@ const appendToSheet = async (data) => {
         const authClient = await auth.getClient();
         const spreadsheetId = '1ZBU7NZtPPxW3bYBj0xwPcPWKsQL2buXPCRq9axJrY60'
 
-        // Reorganizar los datos en el orden correcto
+        // Asegurarnos de que todos los datos estén presentes y en el orden correcto
         const valuesWithDate = [
-            data.phone,           // Número de WhatsApp
-            data.name,            // Nombre
-            data.petName,         // Nombre de la mascota
-            data.service,         // Tipo de servicio
-            data.status,          // En consulta
-            formattedDate         // Fecha y hora
+            phoneNumber,          // Número de WhatsApp
+            customerName,         // Nombre del cliente
+            petName,             // Nombre de la mascota
+            serviceType,         // Tipo de servicio
+            consultationStatus,   // Estado de la consulta
+            formattedDate        // Fecha y hora
         ];
+
+        // Verificar que tenemos todos los datos antes de enviar
+        console.log('Datos a enviar:', valuesWithDate);
 
         await addRowTosheet(authClient, spreadsheetId, valuesWithDate);
         return 'Datos correctamente agregados'
     } catch (error) {
-        console.error(error);
+        console.error('Error al agregar datos:', error);
+        throw error; // Propagar el error para mejor manejo
     }
 }
 
