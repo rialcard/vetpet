@@ -44,7 +44,6 @@ const appendToSheet = async (data) => {
 
         let auth;
         
-        // Usar credenciales desde variable de entorno si estamos en producción
         if (process.env.GOOGLE_CREDENTIALS) {
             const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
             auth = new google.auth.GoogleAuth({
@@ -52,7 +51,6 @@ const appendToSheet = async (data) => {
                 scopes: ['https://www.googleapis.com/auth/spreadsheets']
             });
         } else {
-            // Fallback a archivo local para desarrollo
             auth = new google.auth.GoogleAuth({
                 keyFile: path.join(process.cwd(), 'src/credentials', 'credentials.json'),
                 scopes: ['https://www.googleapis.com/auth/spreadsheets']
@@ -62,14 +60,14 @@ const appendToSheet = async (data) => {
         const authClient = await auth.getClient();
         const spreadsheetId = '1ZBU7NZtPPxW3bYBj0xwPcPWKsQL2buXPCRq9axJrY60'
 
-        // Modificar data para incluir la fecha formateada
+        // Reorganizar los datos en el orden correcto
         const valuesWithDate = [
-            data.name,
-            data.phone,
-            data.petName,
-            data.service,
-            formattedDate,
-            data.status
+            data.phone,           // Número de WhatsApp
+            data.name,            // Nombre
+            data.petName,         // Nombre de la mascota
+            data.service,         // Tipo de servicio
+            data.status,          // En consulta
+            formattedDate         // Fecha y hora
         ];
 
         await addRowTosheet(authClient, spreadsheetId, valuesWithDate);
