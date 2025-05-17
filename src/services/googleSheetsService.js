@@ -54,9 +54,8 @@ const appendToSheet = async (data) => {
         const phoneNumber = data.phone || 'No especificado';
         const customerName = data.name || 'No especificado';
         const petName = data.petName || 'No especificado';
-        // Modificar esta línea para usar el service como estado
         const serviceType = data.service || 'No especificado';
-        const consultationStatus = serviceType; // Usar el tipo de servicio como estado
+        const consultationStatus = 'Pendiente'; // Volver a usar "Pendiente" como estado
 
         let auth;
         
@@ -81,8 +80,8 @@ const appendToSheet = async (data) => {
             phoneNumber,          // Número de WhatsApp
             customerName,         // Nombre del cliente
             petName,             // Nombre de la mascota
+            petName,             // Tipo de mascota (usar el nombre de la mascota)
             serviceType,         // Tipo de servicio
-            consultationStatus,   // Estado de la consulta (ahora será igual al servicio)
             formattedDate        // Fecha y hora
         ];
 
