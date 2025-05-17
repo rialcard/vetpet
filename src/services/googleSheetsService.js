@@ -100,6 +100,7 @@ const appendToSheet = async (data) => {
         phoneNumber,
         customerName,
         petName,
+        petType,
         serviceType,
         consultationStatus
     });
